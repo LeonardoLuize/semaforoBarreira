@@ -1,11 +1,9 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.concurrent.Semaphore;
 
-public class PlanoSaude {
+public class PlanoSaude extends Thread{
 
     private Funcionario[][] listaFuncionariosDividida;
+
     private GestorSemaforo gestorSemaforo;
 
     public PlanoSaude(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo) {
@@ -13,27 +11,40 @@ public class PlanoSaude {
         this.gestorSemaforo = gestorSemaforo;
     }
 
+    public double calculaPrev(Funcionario funcionario){
+        double prevDesc = funcionario.getSalarioBruto() * 0.02;
+        return prevDesc;
+    }
+
     public void run(){
-        for(int i = 0; i < listaFuncionariosDividida.length; i++){
-            Semaphore currentSemaphore = gestorSemaforo.getSemaphoreByIndex(i);
+        int[] listaQualquer = new int[4];
+
+        for(int it = 0; it < listaFuncionariosDividida.length; it++){
+            Semaphore currentSemaphore = gestorSemaforo.getSemaphoreByIndex(it);
             String txt = "";
 
-            try {
+            int i=3;
+            if (it == 1) i = 0;
+            else if (it == 2) i = 1;
+            else if (it == 3) i = 2;
+
+            try{
                 currentSemaphore.acquire();
-            for(int j = 0; j < listaFuncionariosDividida[i].length; j++)    {
-                Funcionario funcionario = listaFuncionariosDividida[i][j];
 
-                double salarioBruto = funcionario.getSalarioBruto();
-                double planoSaude = salarioBruto * (2/100);
+                for(int j = 0; j < listaFuncionariosDividida[i].length; j++)    {
+                    Funcionario funcionario = listaFuncionariosDividida[i][j];
+                    double valorDesconto = calculaPrev(funcionario);
 
-                funcionario.setDescontoPlanoSaude(planoSaude);
+                    funcionario.setDescontoTotal(funcionario.getDescontoTotal() + valorDesconto);
+                    funcionario.setDescontoPlanoSaude(valorDesconto);
+                    funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
 
-                txt = txt + String.valueOf(funcionario.getCodigo()) + "\n";
-            }
+                    txt = txt + funcionario + "\n";
+                }
+                WriteFile.WriteFilePath("./parte4.txt", txt);
+                currentSemaphore.release();
 
-            WriteFile.WriteFilePath("./PlanoSaudeParte" + (i + 1) + ".txt", txt);
-            currentSemaphore.release();
-            } catch (InterruptedException | IOException e) {
+            } catch(Exception e){
                 e.printStackTrace();
             }
         }

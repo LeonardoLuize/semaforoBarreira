@@ -1,0 +1,27 @@
+Funcionario - codigo=6
+- salarioBruto=1364.1561219997757
+- salarioLiquido=-463.8130814799237
+- descontosPrevidencia=54.566244879991025
+- descontoPlanoSaude=27.283122439995513
+- descontoInss=109.13248975998205
+- descontoImpostoRenda=272.83122439995515
+- descontoTotal=463.8130814799237
+
+Funcionario - codigo=7
+- salarioBruto=4093.5083143647084
+- salarioLiquido=-1391.7928268840008
+- descontosPrevidencia=163.74033257458834
+- descontoPlanoSaude=81.87016628729417
+- descontoInss=327.4806651491767
+- descontoImpostoRenda=818.7016628729417
+- descontoTotal=1391.7928268840008
+
+Funcionario - codigo=8
+- salarioBruto=4301.346173739584
+- salarioLiquido=-1462.4576990714584
+- descontosPrevidencia=172.05384694958335
+- descontoPlanoSaude=86.02692347479167
+- descontoInss=344.1076938991667
+- descontoImpostoRenda=860.2692347479167
+- descontoTotal=1462.4576990714584
+

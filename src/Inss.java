@@ -5,13 +5,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class INSS {
+public class Inss extends Thread{
     private double inssValor;
     private float salarioLiquido;
     private Funcionario[][] listaFuncionariosDividida;
     private GestorSemaforo gestorSemaforo;
 
-    public INSS(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo){
+    public Inss(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo){
         this.listaFuncionariosDividida = listaFuncionariosDividida;
         this.gestorSemaforo = gestorSemaforo;
     }
@@ -21,9 +21,7 @@ public class INSS {
         return prevDesc;
     }
 
-    public void run() throws IOException {
-        PrintWriter ps = new PrintWriter("parte3.txt");
-
+    public void run() {
         for (int it = 0; it < listaFuncionariosDividida.length; it++) {
             String txt = "";
             int i=1;
@@ -43,10 +41,13 @@ public class INSS {
                     funcionario.setDescontoInss(valorDesconto);
                     funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
 
-                    txt = txt + funcionario;
+                    txt = txt + funcionario + "\n";
                 }
+
+                WriteFile.WriteFilePath("./parte2.txt", txt);
+
                 currentSemaphore.release();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }

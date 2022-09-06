@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class Previdencia{
+public class Previdencia extends Thread{
     private double previdenciaValor;
     private float salarioLiquido;
     private GestorSemaforo gestorSemaforo;
@@ -41,7 +41,9 @@ public class Previdencia{
 
                     txt = txt + funcionario + "\n";
                 }
-                WriteFile.WriteFilePath("./parte.txt", txt);
+
+                WriteFile.WriteFilePath("./parte3.txt", txt);
+
                 currentSemaphore.release();
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();

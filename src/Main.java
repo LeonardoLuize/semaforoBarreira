@@ -11,8 +11,14 @@ public class Main {
         GestorSemaforo gestorSemaforo = new GestorSemaforo();
 
         Previdencia previdencia = new Previdencia(listaFuncionariosDividida, gestorSemaforo);
+        Inss inss = new Inss(listaFuncionariosDividida, gestorSemaforo);
+        PlanoSaude planoSaude = new PlanoSaude(listaFuncionariosDividida, gestorSemaforo);
+        ImpostoRenda impostoRenda = new ImpostoRenda(listaFuncionariosDividida, gestorSemaforo);
 
-        previdencia.run();
+        impostoRenda.start();
+        previdencia.start();
+        inss.start();
+        planoSaude.start();
     }
 
     public static Funcionario[][] divideLista(int total, int split){
