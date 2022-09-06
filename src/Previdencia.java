@@ -9,10 +9,14 @@ public class Previdencia extends Thread{
     private float salarioLiquido;
     private GestorSemaforo gestorSemaforo;
     private Funcionario[][] listaFuncionariosDividida;
+    private int[] counter;
+    private int limit;
 
-    public Previdencia(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo){
+    public Previdencia(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo, int[] counter, int limit){
         this.listaFuncionariosDividida = listaFuncionariosDividida;
         this.gestorSemaforo = gestorSemaforo;
+        this.limit = limit;
+        this.counter = counter;
     }
 
     public double calculaPrev(Funcionario funcionario){
@@ -21,6 +25,12 @@ public class Previdencia extends Thread{
     }
 
     public void run() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         for (int it = 0; it < listaFuncionariosDividida.length; it++) {
             int i=2;
             if (it == 1) i = 3;
@@ -28,7 +38,6 @@ public class Previdencia extends Thread{
             else if (it == 3) i = 1;
 
             Semaphore currentSemaphore = gestorSemaforo.getSemaphoreByIndex(it);
-            String txt = "";
             try {
                 currentSemaphore.acquire();
                 for (int j = 0; j < listaFuncionariosDividida[i].length; j++) {
@@ -38,16 +47,35 @@ public class Previdencia extends Thread{
                     funcionario.setDescontosPrevidencia(valorDesconto);
                     funcionario.setDescontoTotal(funcionario.getDescontoTotal() + valorDesconto);
                     funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
-
-                    txt = txt + funcionario + "\n";
                 }
 
-                WriteFile.WriteFilePath("./parte3.txt", txt);
-
                 currentSemaphore.release();
-            } catch (InterruptedException | IOException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            Semaphore barreira = gestorSemaforo.getSemaphoreByIndex(4);
+            Semaphore counterSemaphore = gestorSemaforo.getSemaphoreByIndex(5);
+
+            counterSemaphore.acquire();
+            counter[0]++;
+            counterSemaphore.release();
+
+            if (counter[0] == limit) barreira.release();
+
+            barreira.acquire();
+            barreira.release();
+
+            String txt = "";
+
+            for(int i = 0; i < listaFuncionariosDividida[2].length; i++){
+                txt = txt + listaFuncionariosDividida[2][i] + "\n";
+            }
+
+            WriteFile.WriteFilePath("./parte3.txt", txt);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

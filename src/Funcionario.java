@@ -12,19 +12,20 @@ public class Funcionario {
 
     public Funcionario(int codigo, double salario){
         this.codigo = codigo;
-        this.salarioBruto = salario;
+        this.salarioBruto = Math.round(salario*100.0)/100.0;
+        this.salarioLiquido = Math.round(salario*100.0)/100.0;
     }
 
     @Override
     public String toString() {
         return "Funcionario - " + "codigo=" + codigo + "\n" +
-                "- salarioBruto=" + salarioBruto + "\n" +
-                "- salarioLiquido=" + salarioLiquido + "\n" +
-                "- descontosPrevidencia=" + descontosPrevidencia + "\n" +
-                "- descontoPlanoSaude=" + descontoPlanoSaude + "\n" +
-                "- descontoInss=" + descontoInss + "\n" +
-                "- descontoImpostoRenda=" + descontoImpostoRenda + "\n" +
-                "- descontoTotal=" + descontoTotal + "\n";
+                "- salarioBruto = " + salarioBruto + "\n" +
+                "- salarioLiquido = " + salarioLiquido + "\n" +
+                "- descontosPrevidencia = " + descontosPrevidencia + "\n" +
+                "- descontoPlanoSaude = " + descontoPlanoSaude + "\n" +
+                "- descontoInss = " + descontoInss + "\n" +
+                "- descontoImpostoRenda = " + descontoImpostoRenda + "\n" +
+                "- descontoTotal = " + descontoTotal + "\n";
     }
 
     public int getCodigo() {
@@ -40,7 +41,7 @@ public class Funcionario {
     }
 
     public void setSalarioBruto(double salarioBruto) {
-        this.salarioBruto = salarioBruto;
+        this.salarioBruto = Math.round(salarioBruto*100.0)/100.0;
     }
 
     public double getSalarioLiquido() {
@@ -48,7 +49,7 @@ public class Funcionario {
     }
 
     public void setSalarioLiquido(double salarioLiquido) {
-        this.salarioLiquido = salarioLiquido;
+        this.salarioLiquido = Math.round(salarioLiquido*100.0)/100.0;;
     }
 
     public double getDescontosPrevidencia() {
@@ -56,7 +57,7 @@ public class Funcionario {
     }
 
     public void setDescontosPrevidencia(double descontosPrevidencia) {
-        this.descontosPrevidencia = descontosPrevidencia;
+        this.descontosPrevidencia = Math.round(descontosPrevidencia*100.0)/100.0;;
     }
 
     public double getDescontoPlanoSaude() {
@@ -64,7 +65,7 @@ public class Funcionario {
     }
 
     public void setDescontoPlanoSaude(double descontoPlanoSaude) {
-        this.descontoPlanoSaude = descontoPlanoSaude;
+        this.descontoPlanoSaude = Math.round(descontoPlanoSaude*100.0)/100.0;;
     }
 
     public double getDescontoInss() {
@@ -72,7 +73,7 @@ public class Funcionario {
     }
 
     public void setDescontoInss(double descontoInss) {
-        this.descontoInss = descontoInss;
+        this.descontoInss = Math.round(descontoInss*100.0)/100.0;;
     }
 
     public double getDescontoImpostoRenda() {
@@ -80,7 +81,7 @@ public class Funcionario {
     }
 
     public void setDescontoImpostoRenda(double descontoImpostoRenda) {
-        this.descontoImpostoRenda = descontoImpostoRenda;
+        this.descontoImpostoRenda = Math.round(descontoImpostoRenda*100.0)/100.0;;
     }
 
     public double getDescontoTotal() {
@@ -88,6 +89,6 @@ public class Funcionario {
     }
 
     public void setDescontoTotal(double descontoTotal) {
-        this.descontoTotal = descontoTotal;
+        this.descontoTotal = Math.round(descontoTotal*100.0)/100.0;;
     }
 }

@@ -6,18 +6,20 @@ public class Main {
     public static void main(String[] args) {
         int total = 12;
         int split = 4;
+        int[] count = new int[1];
+        count[0] = 0;
 
         Funcionario[][] listaFuncionariosDividida = Main.divideLista(total, split);
         GestorSemaforo gestorSemaforo = new GestorSemaforo();
 
-        Previdencia previdencia = new Previdencia(listaFuncionariosDividida, gestorSemaforo);
-        Inss inss = new Inss(listaFuncionariosDividida, gestorSemaforo);
-        PlanoSaude planoSaude = new PlanoSaude(listaFuncionariosDividida, gestorSemaforo);
-        ImpostoRenda impostoRenda = new ImpostoRenda(listaFuncionariosDividida, gestorSemaforo);
+        Previdencia previdencia = new Previdencia(listaFuncionariosDividida, gestorSemaforo, count, split);
+        Inss inss = new Inss(listaFuncionariosDividida, gestorSemaforo, count, split);
+        PlanoSaude planoSaude = new PlanoSaude(listaFuncionariosDividida, gestorSemaforo, count, split);
+        ImpostoRenda impostoRenda = new ImpostoRenda(listaFuncionariosDividida, gestorSemaforo, count, split);
 
         impostoRenda.start();
-        previdencia.start();
         inss.start();
+        previdencia.start();
         planoSaude.start();
     }
 

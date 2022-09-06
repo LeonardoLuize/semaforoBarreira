@@ -1,14 +1,18 @@
+import java.io.IOException;
 import java.util.concurrent.Semaphore;
 
 public class PlanoSaude extends Thread{
 
     private Funcionario[][] listaFuncionariosDividida;
-
     private GestorSemaforo gestorSemaforo;
+    private int[] counter;
+    private int limit;
 
-    public PlanoSaude(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo) {
+    public PlanoSaude(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo, int[] counter, int limit){
         this.listaFuncionariosDividida = listaFuncionariosDividida;
         this.gestorSemaforo = gestorSemaforo;
+        this.limit = limit;
+        this.counter = counter;
     }
 
     public double calculaPrev(Funcionario funcionario){
@@ -17,11 +21,15 @@ public class PlanoSaude extends Thread{
     }
 
     public void run(){
-        int[] listaQualquer = new int[4];
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
+        int[] listaQualquer = new int[4];
         for(int it = 0; it < listaFuncionariosDividida.length; it++){
             Semaphore currentSemaphore = gestorSemaforo.getSemaphoreByIndex(it);
-            String txt = "";
 
             int i=3;
             if (it == 1) i = 0;
@@ -38,15 +46,35 @@ public class PlanoSaude extends Thread{
                     funcionario.setDescontoTotal(funcionario.getDescontoTotal() + valorDesconto);
                     funcionario.setDescontoPlanoSaude(valorDesconto);
                     funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
-
-                    txt = txt + funcionario + "\n";
                 }
-                WriteFile.WriteFilePath("./parte4.txt", txt);
                 currentSemaphore.release();
 
             } catch(Exception e){
                 e.printStackTrace();
             }
+        }
+        try {
+            Semaphore barreira = gestorSemaforo.getSemaphoreByIndex(4);
+            Semaphore counterSemaphore = gestorSemaforo.getSemaphoreByIndex(5);
+
+            counterSemaphore.acquire();
+            counter[0]++;
+            counterSemaphore.release();
+
+            if (counter[0] == limit) barreira.release();
+
+            barreira.acquire();
+            barreira.release();
+
+            String txt = "";
+
+            for(int i = 0; i < listaFuncionariosDividida[3].length; i++){
+                txt = txt + listaFuncionariosDividida[3][i] + "\n";
+            }
+
+            WriteFile.WriteFilePath("./parte4.txt", txt);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
