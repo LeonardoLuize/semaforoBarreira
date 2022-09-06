@@ -9,6 +9,7 @@ public class INSS {
     private double inssValor;
     private float salarioLiquido;
     private Funcionario[][] listaFuncionariosDividida;
+    private GestorSemaforo gestorSemaforo;
 
     public INSS(Funcionario[][] listaFuncionariosDividida, GestorSemaforo gestorSemaforo){
         this.listaFuncionariosDividida = listaFuncionariosDividida;
@@ -30,18 +31,24 @@ public class INSS {
             else if (it == 2) i = 3;
             else if (it == 3) i = 0;
 
-            Semaphore currentSemaphore = gestor
-            for (int j = 0; j < listaFuncionariosDividida[i].length; j++) {
-                Funcionario funcionario = listaFuncionariosDividida[i][j];
-                double valorDesconto = calculaPrev(funcionario);
-                funcionario.setDescontoTotal(funcionario.getDescontoTotal() + valorDesconto);
-                funcionario.setDescontoInss(valorDesconto);
+            Semaphore currentSemaphore = gestorSemaforo.getSemaphoreByIndex(it);
+            try {
+                currentSemaphore.acquire();
 
-                funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
+                for (int j = 0; j < listaFuncionariosDividida[i].length; j++) {
+                    Funcionario funcionario = listaFuncionariosDividida[i][j];
+                    double valorDesconto = calculaPrev(funcionario);
 
-                txt = txt + funcionario.getCodigo() + ": " + funcionario.getSalarioLiquido();
+                    funcionario.setDescontoTotal(funcionario.getDescontoTotal() + valorDesconto);
+                    funcionario.setDescontoInss(valorDesconto);
+                    funcionario.setSalarioLiquido(funcionario.getSalarioLiquido() - valorDesconto);
+
+                    txt = txt + funcionario;
+                }
+                currentSemaphore.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
         }
     }
 }
