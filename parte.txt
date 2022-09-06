@@ -1,0 +1,27 @@
+Funcionario - codigo=3
+- salarioBruto=2264.6981126325245
+- salarioLiquido=-90.58792450530098
+- descontosPrevidencia=90.58792450530098
+- descontoPlanoSaude=0.0
+- descontoInss=0.0
+- descontoImpostoRenda=0.0
+- descontoTotal=90.58792450530098
+
+Funcionario - codigo=4
+- salarioBruto=3678.2386310100947
+- salarioLiquido=-147.1295452404038
+- descontosPrevidencia=147.1295452404038
+- descontoPlanoSaude=0.0
+- descontoInss=0.0
+- descontoImpostoRenda=0.0
+- descontoTotal=147.1295452404038
+
+Funcionario - codigo=5
+- salarioBruto=1388.0690173228213
+- salarioLiquido=-55.522760692912854
+- descontosPrevidencia=55.522760692912854
+- descontoPlanoSaude=0.0
+- descontoInss=0.0
+- descontoImpostoRenda=0.0
+- descontoTotal=55.522760692912854
+
